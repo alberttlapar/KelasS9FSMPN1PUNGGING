@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelas 9F - SMPN 1 Pungging</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #f59e0b;
+            --light: #f0f9ff;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* KONTAINER LOGIN */
+        .login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .login-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-title {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .login-error {
+            color: #ef4444;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* BILAH INFO PENGGUNA */
+        .user-info-bar {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+        }
+
+        .user-welcome {
+            font-size: 1.2rem;
+        }
+
+        .user-name {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0,0) rotate(0deg); }
+            100% { transform: translate(-50%,-50%) rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .school-name {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .class-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .class-motto {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        /* STATISTIK */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* PENGURUS */
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .pengurus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pengurus-card {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .pengurus-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+        }
+
+        .pengurus-role {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pengurus-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .pengurus-absen {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* DAFTAR SISWA */
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .student-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .student-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+        }
+
+        .student-card.pengurus {
+            background: linear-gradient(135deg, #fff, var(--light));
+            border-color: var(--accent);
+        }
+
+        .student-card.current-user {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, #fff, #fff8e1);
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .student-number {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: var(--primary);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .student-name {
+            font-weight: 500;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .student-role {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .current-user-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        /* WALI KELAS */
+        .wali-kelas {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .wali-name {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .wali-title {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        /* UPLOAD SECTION */
+        .upload-section {
+            background: linear-gradient(135deg, var(--light), white);
+            border: 2px dashed var(--primary);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, white, var(--light));
+        }
+
+        .upload-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .upload-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .upload-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .upload-label {
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .file-input-label:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .category-select {
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            min-width: 150px;
+            transition: border-color 0.3s ease;
+        }
+
+        .category-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .upload-btn {
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .upload-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .preview-container {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-preview {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* GALERI KENANGAN */
+        .gallery-section {
+            margin-bottom: 2rem;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+
+        .photo-count {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            background: var(--light);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .delete-photo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .delete-photo {
+            display: flex;
+        }
+
+        .delete-photo:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .comment-badge {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .empty-gallery {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        /* MODAL FOTO DENGAN CHAT */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            display: flex;
+            height: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .modal-image-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+
+        .modal-chat-section {
+            width: 400px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border-left: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .modal-chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            background: var(--light);
+        }
+
+        .modal-chat-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-chat-info {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .modal-comments-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8fafc;
+        }
+
+        .comment-item {
+            margin-bottom: 15px;
+            animation: slideInComment 0.3s ease;
+        }
+
+        @keyframes slideInComment {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .comment-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .comment-text {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            border-top-left-radius: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .comment-text.own {
+            background: var(--primary);
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 0;
+        }
+
+        .delete-comment {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 10px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .comment-item:hover .delete-comment {
+            display: flex;
+        }
+
+        .modal-comment-form {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        .comment-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .comment-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .comment-input:focus {
+        outline: none;
+            border-color: var(--primary);
+        }
+
+        .comment-send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .comment-send-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        .no-comments {
+            text-align: center;
+            color: var(--gray);
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: color 0.3s ease;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            color: var(--accent);
+        }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 10000;
+            }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .class-name {
+                font-size: 2rem;
+            }
+            
+            .students-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+            
+            .pengurus-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .user-info-bar {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .upload-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .gallery-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+                }
+
+            .modal-content {
+                flex-direction: column;
+            }
+
+            .modal-chat-section {
+                width: 100%;
+                height: 50vh;
+            }
+
+            .modal-image-section {
+                height: 50vh;
+            }
+        }
+        
+        /* ANIMASI */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- MODAL LOGIN -->
+    <div class="login-container" id="kontainerLogin">
+        <div class="login-box">
+            <h2 class="login-title">SMPN 1 Pungging</h2>
+            <p class="login-subtitle">Masuk untuk mengakses halaman Kelas 9F</p>
+            
+            <form id="formLogin">
+            <div class="form-group">
+                    <label class="form-label" for="namaPengguna">Nama Lengkap</label>
+                    <input type="text" id="namaPengguna" class="form-input" placeholder="Masukkan nama lengkap" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="nomorAbsen">Nomor Absen</label>
+                    <input type="number" id="nomorAbsen" class="form-input" placeholder="Masukkan nomor absen" min="1" max="31" required>
+                </div>
+                
+                <button type="submit" class="login-btn">Masuk</button>
+                
+                <div class="login-error" id="pesanErrorLogin">
+                    Nama atau nomor absen tidak cocok. Silakan coba lagi.
+                </div>
+                </form>
+        </div>
+    </div>
+
+    <div class="container hidden" id="kontenUtama">
+        <!-- BILAH INFO PENGGUNA -->
+        <div class="user-info-bar">
+            <div class="user-welcome">
+                Selamat datang, <span class="user-name" id="penggunaAktif"></span>!
+            </div>
+            <button class="logout-btn" id="tombolKeluar">Keluar</button>
+        </div>
+
+        <!-- HEADER -->
+        <header class="header fade-in">
+            <div class="header-content">
+            <div class="school-name">SMPN 1 PUNGGING MOJOKERTO</div>
+                <h1 class="class-name">KELAS 9F</h1>
+                <div class="class-motto">"Menjadi Siswa yang Teladan"</div>
+            </div>
+        </header>
+
+        <!-- STATISTIK -->
+        <div class="stats fade-in">
+            <div class="stat-card">
+                <span class="stat-number">31</span>
+                <span class="stat-label">Total Siswa</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">6</span>
+                <span class="stat-label">Pengurus Inti</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">2026</span>
+                <span class="stat-label">Tahun Lulus</span>
+            </div>
+        </div>
+
+        <!-- WALI KELAS -->
+        <div class="section fade-in">
+            <div class="wali-kelas">
+                <div class="wali-title">Wali Kelas</div>
+                <div class="wali-name">Bu Rita</div>
+            </div>
+        </div>
+        
+        <!-- STRUKTUR PENGURUS -->
+        <div class="section fade-in">
+            <h2 class="section-title">Struktur Pengurus Kelas</h2>
+            <div class="pengurus-grid">
+                <div class="pengurus-card">
+                    <div class="pengurus-role">Ketua Kelas</div>
+                    <div class="pengurus-name">Handika</div>
+                    <div class="pengurus-absen">Absen 10</div>
+                </div>
+                <div class="pengurus-card">
+                    <div class="pengurus-role">Wakil Ketua</div>
+                    <div class="pengurus-name">Vita</div>
+                    <div class="pengurus-absen">Absen 29</div>
+                </div>
+                <div class="pengurus-card">
+                    <div class="pengurus-role">Sekretaris 1</div>
+                    <div class="pengurus-name">Icha</div>
+                    <div class="pengurus-absen">Absen 11</div>
+                </div>
+                <div class="pengurus-card">
+                    <div class="pengurus-role">Sekretaris 2</div>
+                    <div class="pengurus-name">Nabila</div>
+                    <div class="pengurus-absen">Absen 22</div>
+                </div>
+                <div class="pengurus-card">
+                <div class="pengurus-role">Bendahara 1</div>
+                    <div class="pengurus-name">Zahra</div>
+                    <div class="pengurus-absen">Absen 31</div>
+                </div>
+                <div class="pengurus-card">
+                    <div class="pengurus-role">Bendahara 2</div>
+                    <div class="pengurus-name">Saskia</div>
+                    <div class="pengurus-absen">Absen 27</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DAFTAR SISWA LENGKAP -->
+        <div class="section fade-in">
+            <h2 class="section-title">Daftar Siswa Kelas 9F</h2>
+            <div class="students-grid" id="gridSiswa">
+                <!-- Siswa akan muncul di sini -->
+            </div>
+        </div>
+        
+        <!-- UPLOAD FOTO SECTION -->
+        <div class="section fade-in">
+            <h2 class="section-title">Upload Foto Kenangan</h2>
+            <div class="upload-section">
+                <h3 class="upload-title">📸 Tambah Foto Kenangan</h3>
+                <form class="upload-form" id="uploadForm">
+                    <div class="upload-group">
+                        <label class="upload-label">Pilih Foto</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="fileInput" accept="image/*" multiple>
+                            <label for="fileInput" class="file-input-label">
+                                📁 Pilih File
+                            </label>
+                        </div>
+                    </div>
+                    <div class="upload-group">
+                        <label class="upload-label">Kategori</label>
+                        <select class="category-select" id="categorySelect">
+                            <option value="kelas7">📚 Kelas 7 (2023)</option>
+                            <option value="kelas8">📚 Kelas 8 (2024)</option>
+                            <option value="kelas9">📚 Kelas 9 (2025)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="upload-btn" id="uploadBtn">
+                        ⬆️ Upload Foto
+                    </button>
+                </form>
+                <div class="preview-container" id="previewContainer"></div>
+            </div>
+        </div>
+
+        <!-- GALERI KENANGAN -->
+        <div class="section fade-in">
+            <h2 class="section-title">Galeri Kenangan</h2>
+            
+            <!-- KELAS 7 -->
+            <div class="gallery-section">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">📚 Kenangan Kelas 7 (2023)</h3>
+                    <span class="photo-count" id="countKelas7">0 foto</span>
+                </div>
+                <div class="gallery-grid" id="galleryKelas7">
+                    <div class="empty-gallery">Belum ada foto. Upload foto kenangan kelas 7!</div>
+                </div>
+            </div>
+            
+            <!-- KELAS 8 -->
+            <div class="gallery-section">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">📚 Kenangan Kelas 8 (2024)</h3>
+                    <span class="photo-count" id="countKelas8">0 foto</span>
+                </div>
+                <div class="gallery-grid" id="galleryKelas8">
+                    <div class="empty-gallery">Belum ada foto. Upload foto kenangan kelas 8!</div>
+                </div>
+            </div>
+
+            <!-- KELAS 9 -->
+            <div class="gallery-section">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">📚 Kenangan Kelas 9 (2025)</h3>
+                    <span class="photo-count" id="countKelas9">0 foto</span>
+                </div>
+                <div class="gallery-grid" id="galleryKelas9">
+                    <div class="empty-gallery">Belum ada foto. Upload foto kenangan kelas 9!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MODAL FOTO DENGAN CHAT -->
+    <div id="modalFoto" class="modal">
+        <div class="modal-content">
+            <div class="modal-image-section">
+                <img class="modal-image" id="gambarModal">
+            </div>
+            <div class="modal-chat-section">
+                <div class="modal-chat-header">
+                    <div class="modal-chat-title">💬 Komentar Foto</div>
+                    <div class="modal-chat-info" id="modalChatInfo">Bagikan kenanganmu...</div>
+                </div>
+                <div class="modal-comments-container" id="commentsContainer">
+                    <div class="no-comments">Belum ada komentar. Jadilah yang pertama!</div>
+                </div>
+                <div class="modal-comment-form">
+                    <div class="comment-input-group">
+                        <input type="text" class="comment-input" id="commentInput" placeholder="Tulis komentar...">
+                        <button class="comment-send-btn" id="commentSendBtn">
+                            ➤
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <span class="close-modal" onclick="tutupModal()">&times;</span>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // DATA SISWA
+        const dataSiswa = [
+            { no: 1, nama: "Afrizal", peran: "" },
+            { no: 2, nama: "Adit", peran: "" },
+            { no: 3, nama: "Alen", peran: "" },
+            { no: 4, nama: "Nindy", peran: "" },
+            { no: 5, nama: "Arkan", peran: "" },
+            { no: 6, nama: "Azka", peran: "" },
+            { no: 7, nama: "Candra", peran: "" },
+            { no: 8, nama: "Eka", peran: "" },
+            { no: 9, nama: "Cupang", peran: "" },
+            { no: 10, nama: "Handika", peran: "Ketua Kelas" },
+            { no: 11, nama: "Icha", peran: "Sekretaris" },
+            { no: 12, nama: "Yuda", peran: "" },
+            { no: 13, nama: "Thoni", peran: "" },
+            { no: 14, nama: "Agam", peran: "" },
+            { no: 15, nama: "Arif", peran: "" },
+            { no: 16, nama: "Fachri", peran: "" },
+            { no: 17, nama: "Ilham", peran: "" },
+            { no: 18, nama: "Novan", peran: "" },
+            { no: 19, nama: "Rizky", peran: "" },
+            { no: 20, nama: "Zacky", peran: "" },
+            { no: 21, nama: "Faisal", peran: "" },
+            { no: 22, nama: "Nabila", peran: "Sekretaris" },
+            { no: 23, nama: "Naysila", peran: "" },
+            { no: 24, nama: "Rizal", peran: "" },
+            { no: 25, nama: "Rasti", peran: "" },
+            { no: 26, nama: "Salsa", peran: "" },
+            { no: 27, nama: "Saskia", peran: "Bendahara" },
+            { no: 28, nama: "Savira", peran: "" },
+            { no: 29, nama: "Vita", peran: "Wakil Ketua" },
+            { no: 30, nama: "Syabil", peran: "" },
+            { no: 31, nama: "Zahra", peran: "Bendahara" }
+            
+            
+            // SISTEM LOGIN
+        let penggunaSaatIni = null;
+        let selectedFiles = [];
+        let currentPhotoId = null;
+        let galleryData = {
+            kelas7: [],
+            kelas8: [],
+            kelas9: []
+        };
+
+        // Load gallery data dari localStorage
+        function loadGalleryData() {
+            const saved = localStorage.getItem('galleryData');
+            if (saved) {
+                galleryData = JSON.parse(saved);
+            }
+        }
+
+        // Save gallery data ke localStorage
+        function saveGalleryData() {
+            localStorage.setItem('galleryData', JSON.stringify(galleryData));
+        }
+
+        // Periksa apakah pengguna sudah masuk
+        window.onload = function() {
+            loadGalleryData();
+            const penggunaTersimpan = localStorage.getItem('penggunaSaatIni');
+            if (penggunaTersimpan) {
+                penggunaSaatIni = JSON.parse(penggunaTersimpan);
+                tampilkanKontenUtama();
+            } else {
+                document.getElementById('kontainerLogin').style.display = 'flex';
+            }
+        };
+
+        // Pengiriman form login
+        document.getElementById('formLogin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const namaInput = document.getElementById('namaPengguna').value.trim();
+            const absenInput = parseInt(document.getElementById('nomorAbsen').value);
+            
+            // Cari siswa dalam array
+            const siswa = dataSiswa.find(s => 
+                s.nama.toLowerCase() === namaInput.toLowerCase() && s.no === absenInput
+            );
+            
+            if (siswa) {
+                penggunaSaatIni = siswa;
+                localStorage.setItem('penggunaSaatIni', JSON.stringify(penggunaSaatIni));
+                tampilkanKontenUtama();
+            } else {
+                document.getElementById('pesanErrorLogin').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('pesanErrorLogin').style.display = 'none';
+                }, 3000);
+            }
+        });
+        
+        // Tampilkan konten utama setelah login berhasil
+        function tampilkanKontenUtama() {
+            document.getElementById('kontainerLogin').style.display = 'none';
+            document.getElementById('kontenUtama').classList.remove('hidden');
+            document.getElementById('penggunaAktif').textContent = penggunaSaatIni.nama;
+            renderSiswa();
+            renderGalleries();
+        }
+
+        // Fungsi keluar
+        document.getElementById('tombolKeluar').addEventListener('click', function() {
+            localStorage.removeItem('penggunaSaatIni');
+            penggunaSaatIni = null;
+            document.getElementById('kontainerLogin').style.display = 'flex';
+            document.getElementById('kontenUtama').classList.add('hidden');
+            document.getElementById('namaPengguna').value = '';
+            document.getElementById('nomorAbsen').value = '';
+        });
+        
+        // RENDER SISWA
+        function renderSiswa() {
+            const gridSiswa = document.getElementById('gridSiswa');
+            gridSiswa.innerHTML = '';
+            
+            dataSiswa.forEach(siswa => {
+                const kartu = document.createElement('div');
+                const adalahPenggunaAktif = penggunaSaatIni && siswa.no === penggunaSaatIni.no;
+                kartu.className = `student-card ${siswa.peran ? 'pengurus' : ''} ${adalahPenggunaAktif ? 'current-user' : ''}`;
+                
+                kartu.innerHTML = `
+                    <div class="student-number">${siswa.no}</div>
+                    <div class="student-name">${siswa.nama}</div>
+                    ${siswa.peran ? `<div class="student-role">${siswa.peran}</div>` : ''}
+                    ${adalahPenggunaAktif ? `<div class="current-user-badge">Anda</div>` : ''}
+                `;
+                
+                gridSiswa.appendChild(kartu);
+            });
+        }
+        
+        // FILE UPLOAD HANDLING
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            selectedFiles = files;
+            showPreview(files);
+        });
+
+        // Show preview of selected files
+        function showPreview(files) {
+            const container = document.getElementById('previewContainer');
+            container.innerHTML = '';
+            
+            files.forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'preview-item';
+                        previewItem.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview">
+                            <button class="remove-preview" onclick="removePreview(${index})">×</button>
+                        `;
+                        container.appendChild(previewItem);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // Remove preview
+        function removePreview(index) {
+            selectedFiles.splice(index, 1);
+            showPreview(selectedFiles);
+        }
+
+        // Upload form submission
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (selectedFiles.length === 0) {
+                showToast('Silakan pilih foto terlebih dahulu!', 'error');
+                return;
+            }
+            
+            const category = document.getElementById('categorySelect').value;
+            const uploadBtn = document.getElementById('uploadBtn');
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Mengupload...';
+            
+            // Simulasi upload delay
+            setTimeout(() => {
+                let uploadedCount = 0;
+                selectedFiles.forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const photoData = {
+                                id: Date.now() + Math.random(),
+                                src: e.target.result,
+                                name: file.name,
+                                uploadedBy: penggunaSaatIni.nama,
+                                uploadDate: new Date().toISOString(),
+                                comments: []
+                                };
+                            galleryData[category].push(photoData);
+                            uploadedCount++;
+                            
+                            if (uploadedCount === selectedFiles.filter(f => f.type.startsWith('image/')).length) {
+                                saveGalleryData();
+                                renderGalleries();
+                                selectedFiles = [];
+                                document.getElementById('fileInput').value = '';
+                                document.getElementById('previewContainer').innerHTML = '';
+                                uploadBtn.disabled = false;
+                                uploadBtn.textContent = '⬆️ Upload Foto';
+                                showToast(`Berhasil mengupload ${uploadedCount} foto ke ${getCategoryName(category)}!`);
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }, 1500);
+            
+            
+            // Get category name
+        function getCategoryName(category) {
+            const names = {
+                'kelas7': 'Kelas 7',
+                'kelas8': 'Kelas 8',
+                'kelas9': 'Kelas 9'
+            };
+            return names[category] || category;
+        }
+
+        // Render all galleries
+        function renderGalleries() {
+            renderGallery('kelas7');
+            renderGallery('kelas8');
+            renderGallery('kelas9');
+        }
+
+        // Render individual gallery
+        function renderGallery(category) {
+            const galleryElement = document.getElementById(`gallery${category.charAt(0).toUpperCase() + category.slice(1)}`);
+            const countElement = document.getElementById(`count${category.charAt(0).toUpperCase() + category.slice(1)}`);
+            const photos = galleryData[category];
+            
+            countElement.textContent = `${photos.length} foto`;
+            
+            if (photos.length === 0) {
+                galleryElement.innerHTML = `<div class="empty-gallery">Belum ada foto. Upload foto kenangan ${getCategoryName(category)}!</div>`;
+                return;
+            }
+            
+            galleryElement.innerHTML = '';
+            photos.forEach(photo => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                const commentCount = photo.comments ? photo.comments.length : 0;
+                item.innerHTML = `
+                    <img src="${photo.src}" alt="${photo.name}" onclick="bukaModal('${category}', '${photo.id}')">
+                    <button class="delete-photo" onclick="hapusFoto('${category}', '${photo.id}')">×</button>
+                    ${commentCount > 0 ? `<div class="comment-badge">💬 ${commentCount}</div>` : ''}
+                `;
+                galleryElement.appendChild(item);
+            });
+        }
+
+        // Delete photo
+        function hapusFoto(category, photoId) {
+            if (confirm('Apakah Anda yakin ingin menghapus foto ini?')) {
+                galleryData[category] = galleryData[category].filter(photo => photo.id != photoId);
+                saveGalleryData();
+                renderGallery(category);
+                showToast('Foto berhasil dihapus!');
+            }
+        }
+
+        // MODAL DENGAN CHAT
+        function bukaModal(category, photoId) {
+            const modal = document.getElementById('modalFoto');
+            const gambarModal = document.getElementById('gambarModal');
+            const commentsContainer = document.getElementById('commentsContainer');
+            const modalChatInfo = document.getElementById('modalChatInfo');
+            
+            // Find photo
+            const photo = galleryData[category].find(p => p.id == photoId);
+            if (!photo) return;
+            
+            currentPhotoId = { category, photoId };
+            gambarModal.src = photo.src;
+            
+            // Update chat info
+            modalChatInfo.textContent = `Diupload oleh ${photo.uploadedBy} • ${formatDate(photo.uploadDate)}`;
+            
+            // Render comments
+            renderComments(photo.comments || []);
+            
+            modal.style.display = 'block';
+            
+            // Focus comment input
+            setTimeout(() => {
+                document.getElementById('commentInput').focus();
+            }, 300);
+        }
+        
+        // Render comments
+        function renderComments(comments) {
+            const container = document.getElementById('commentsContainer');
+            
+            if (!comments || comments.length === 0) {
+                container.innerHTML = '<div class="no-comments">Belum ada komentar. Jadilah yang pertama!</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            comments.forEach(comment => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment-item';
+                const isOwn = penggunaSaatIni && comment.author === penggunaSaatIni.nama;
+                
+                commentDiv.innerHTML = `
+                    <div class="comment-header">
+                        <span class="comment-author">${comment.author}</span>
+                        <span class="comment-time">${formatDate(comment.timestamp)}</span>
+                    </div>
+                    <div class="comment-text ${isOwn ? 'own' : ''}">
+                        ${comment.text}
+                        ${isOwn ? `<button class="delete-comment" onclick="hapusComment('${comment.id}')">×</button>` : ''}
+                    </div>
+                    `;
+                
+                container.appendChild(commentDiv);
+            });
+            
+            // Scroll to bottom
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Send comment
+        document.getElementById('commentSendBtn').addEventListener('click', sendComment);
+        document.getElementById('commentInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendComment();
+            }
+        });
+        
+        function sendComment() {
+            const input = document.getElementById('commentInput');
+            const text = input.value.trim();
+            
+            if (!text || !currentPhotoId || !penggunaSaatIni) return;
+            
+            const comment = {
+                id: Date.now() + Math.random(),
+                author: penggunaSaatIni.nama,
+                text: text,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Add comment to photo
+            const photo = galleryData[currentPhotoId.category].find(p => p.id == currentPhotoId.photoId);
+            if (photo) {
+                if (!photo.comments) photo.comments = [];
+                photo.comments.push(comment);
+                
+                saveGalleryData();
+                renderComments(photo.comments);
+                renderGalleries(); // Update gallery to show comment count
+                
+                input.value = '';
+                showToast('Komentar berhasil ditambahkan!');
+            }
+            }
+
+        // Delete comment
+        function hapusComment(commentId) {
+            if (!currentPhotoId) return;
+            
+            const photo = galleryData[currentPhotoId.category].find(p => p.id == currentPhotoId.photoId);
+            if (photo && photo.comments) {
+                photo.comments = photo.comments.filter(c => c.id != commentId);
+                saveGalleryData();
+                renderComments(photo.comments);
+                renderGalleries();
+                showToast('Komentar berhasil dihapus!');
+            }
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return 'Baru saja';
+            if (minutes < 60) return `${minutes} menit lalu`;
+            if (hours < 24) return `${hours} jam lalu`;
+            if (days < 7) return `${days} hari lalu`;
+            
+            return date.toLocaleDateString('id-ID');
+        }
+        
+        function tutupModal() {
+            document.getElementById('modalFoto').style.display = 'none';
+            currentPhotoId = null;
+            document.getElementById('commentInput').value = '';
+        }
+
+        // Toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.background = type === 'error' ? 'var(--danger)' : 'var(--success)';
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // TUTUP MODAL KETIKA KLIK DI LUAR
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalFoto');
+            if (event.target === modal) {
+                tutupModal();
+                }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                tutupModal();
+            }
+        });
+    </script>
+</body>
+</html>
